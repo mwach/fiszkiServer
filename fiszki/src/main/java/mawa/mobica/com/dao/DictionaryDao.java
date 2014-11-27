@@ -11,13 +11,12 @@ public class DictionaryDao {
 	public Dictionary getDictionary(int i) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
-		org.slf4j.helpers.MessageFormatter.format("a", 1, 2);
 		Dictionary d = new Dictionary();
 		d.setDescription("desc");
 		d.setName("name");
 		d.setUuid(UUID.randomUUID().toString());
-//		session.save(d);
-//		session.getTransaction().commit();
+		session.save(d);
+		session.getTransaction().commit();
 		// TODO Auto-generated method stub
 		return d;
 	}

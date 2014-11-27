@@ -14,9 +14,9 @@ public class DictionaryResource {
 	DictionaryDao dd = new DictionaryDao();
 
 	@GET
-	  @Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-	 public Dictionary getDictionary(){
-		
+	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+	public Dictionary getDictionary() {
+
 		return dd.getDictionary(5);
 	}
 }

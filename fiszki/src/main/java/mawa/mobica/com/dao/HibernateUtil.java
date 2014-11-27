@@ -3,8 +3,6 @@ package mawa.mobica.com.dao;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AnnotationConfiguration;
-import org.hibernate.cfg.Configuration;
-import org.slf4j.helpers.FormattingTuple;
 
 public class HibernateUtil {
 
@@ -13,8 +11,7 @@ public class HibernateUtil {
     private static SessionFactory buildSessionFactory() {
         try {
             // Create the SessionFactory from hibernate.cfg.xml
-        	org.slf4j.helpers.MessageFormatter.format("a", 1, 2);
-        	return new Configuration().
+        	return new AnnotationConfiguration().
         			configure().
         			buildSessionFactory();
         }
