@@ -1,24 +1,37 @@
 package mawa.mobica.com.dao;
 
-import java.util.UUID;
+import java.util.List;
 
+import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
 
 import mawa.mobica.com.model.Dictionary;
 
-public class DictionaryDao {
+public final class DictionaryDao {
 
-	public Dictionary getDictionary(int i) {
+	private DictionaryDao(){
+	}
+
+	public static DictionaryDao getInstance(){
+		return new DictionaryDao();
+	}
+
+	public List<Dictionary> getDictionaries(String baseLanguage,
+			String refLanguage) {
 		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
-		Dictionary d = new Dictionary();
-		d.setDescription("desc");
-		d.setName("name");
-		d.setUuid(UUID.randomUUID().toString());
-		session.save(d);
-		session.getTransaction().commit();
-		// TODO Auto-generated method stub
-		return d;
+
+		Criteria criteria = session.createCriteria(Dictionary.class);
+		if(baseLanguage != null){
+			criteria.add(Restrictions.eq(DB.DICTIONARY__BASE_LANG, baseLanguage));
+		}
+		if(refLanguage != null){
+			criteria.add(Restrictions.eq(DB.DICTIONARY__REF_LANG, refLanguage));
+		}
+		@SuppressWarnings("unchecked")
+		List<Dictionary> results = (List<Dictionary>)criteria.list();
+
+		return results;
 	}
 
 }

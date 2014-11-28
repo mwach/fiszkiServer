@@ -11,12 +11,12 @@ import mawa.mobica.com.model.Dictionary;
 @Path("/dictionary")
 public class DictionaryResource {
 
-	DictionaryDao dd = new DictionaryDao();
+	DictionaryDao dd = DictionaryDao.getInstance();
 
 	@GET
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	public Dictionary getDictionary() {
 
-		return dd.getDictionary(5);
+		return dd.getDictionaries(null, null).get(0);
 	}
 }

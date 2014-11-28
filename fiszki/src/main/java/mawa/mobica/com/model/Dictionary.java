@@ -10,8 +10,15 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import mawa.mobica.com.dao.DB;
+
+/**
+ * Class represents single dictionary
+ * @author mawa
+ *
+ */
 @Entity
-@Table
+@Table(name=DB.DICTIONARY)
 @XmlRootElement
 public class Dictionary implements Serializable{
 
@@ -22,14 +29,14 @@ public class Dictionary implements Serializable{
 
 	@Id
     @GeneratedValue( strategy = GenerationType.AUTO )
-	@Column
+	@Column(name=DB.DICTIONARY__ID)
 	private Long id;
 
-	@Column
+	@Column(name=DB.DICTIONARY__UUID)
 	private String uuid;
-	@Column
+	@Column(name=DB.DICTIONARY__NAME)
 	private String name;
-	@Column
+	@Column(name=DB.DICTIONARY__DESC)
 	private String description;
 
 	
@@ -58,5 +65,12 @@ public class Dictionary implements Serializable{
 		this.description = description;
 	}
 	
-	
+
+	@Override
+	public String toString() {
+		return new StringBuilder().
+				append("id: ").append(id).
+				append("name: ").append(name).
+				toString();
+	}
 }
