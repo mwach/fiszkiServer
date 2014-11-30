@@ -1,5 +1,7 @@
 package mawa.mobica.com;
 
+import java.sql.SQLException;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -17,6 +19,12 @@ public class DictionaryResource {
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	public Dictionary getDictionary() {
 
-		return dd.getDictionaries(null, null).get(0);
+		try {
+			return dd.getDictionaries(null, null).get(0);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 }

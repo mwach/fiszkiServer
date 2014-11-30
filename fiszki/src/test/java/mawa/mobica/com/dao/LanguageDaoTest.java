@@ -3,6 +3,7 @@ package mawa.mobica.com.dao;
 import static org.junit.Assert.*;
 
 import java.sql.SQLException;
+import java.util.UUID;
 
 import mawa.mobica.com.dao.exception.InvalidObjectException;
 import mawa.mobica.com.dao.exception.NotFoundException;
@@ -32,7 +33,7 @@ public class LanguageDaoTest {
 	public void testCreateGet() throws SQLException {
 		Language language = new Language();
 		language.setDescription("description");
-		language.setName("name");
+		language.setName("nameCG");
 		languageDao.create(language);
 		assertEquals(language, languageDao.get(language.getId()));
 	}
@@ -41,12 +42,34 @@ public class LanguageDaoTest {
 	public void testCreateDelete() throws SQLException {
 		Language language = new Language();
 		language.setDescription("description");
-		language.setName("name");
+		language.setName("nameCD");
 		languageDao.create(language);
 		languageDao.delete(language.getId());
 
 		exception.expect(NotFoundException.class);
 		languageDao.get(language.getId());
+	}
+
+	@Test
+	public void testCreateUpdate() throws SQLException {
+		Language language = new Language();
+		language.setDescription(UUID.randomUUID().toString());
+		language.setName("nameCU");
+		languageDao.create(language);
+		assertEquals(language, languageDao.get(language.getId()));
+
+		language.setName(UUID.randomUUID().toString());
+		languageDao.update(language);
+		assertEquals(language, languageDao.get(language.getId()));
+	}
+
+	@Test
+	public void testEnumerate() throws SQLException {
+		Language language = new Language();
+		language.setDescription(UUID.randomUUID().toString());
+		language.setName(UUID.randomUUID().toString());
+		languageDao.create(language);
+		assertTrue(languageDao.enumerate().contains(language));
 	}
 
 	@Test
@@ -61,6 +84,17 @@ public class LanguageDaoTest {
 
 		exception.expect(NotFoundException.class);
 		languageDao.delete(-1);
+	}
+
+	@Test
+	public void testNonExistingUpdate() throws SQLException {
+
+		exception.expect(NotFoundException.class);
+		Language testLanguage = new Language();
+		testLanguage.setName("TNEU");
+		testLanguage.setDescription("description");
+		testLanguage.setId(-1L);
+		languageDao.update(testLanguage);
 	}
 
 }

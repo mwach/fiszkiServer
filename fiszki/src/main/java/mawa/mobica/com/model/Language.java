@@ -32,7 +32,7 @@ public class Language implements Serializable{
 	@Column(name=DB.LANGUAGE__ID)
 	private Long id;
 
-	@Column(name=DB.LANGUAGE__NAME, nullable=false)
+	@Column(name=DB.LANGUAGE__NAME, nullable=false, unique=true)
 	private String name;
 	@Column(name=DB.LANGUAGE__DESC, nullable=false)
 	private String description;

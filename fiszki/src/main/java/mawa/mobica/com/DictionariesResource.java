@@ -1,5 +1,6 @@
 package mawa.mobica.com;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.ws.rs.GET;
@@ -25,6 +26,12 @@ public class DictionariesResource {
 	public List<Dictionary> getDictionaries(
 			@QueryParam(value = "baseLanguage") final String baseLanguage,
 			@QueryParam(value = "refLanguage") final String refLanguage) {
-		return DictionaryDao.getInstance().getDictionaries(baseLanguage, refLanguage);
+		try {
+			return DictionaryDao.getInstance().getDictionaries(baseLanguage, refLanguage);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 }

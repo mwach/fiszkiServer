@@ -4,7 +4,7 @@ import java.sql.SQLException;
 
 public interface IDao<T> {
 
-	public long create(T object) throws SQLException;
+	public T create(T object) throws SQLException;
 
 	public void delete(long objectId) throws SQLException;
 

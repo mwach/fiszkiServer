@@ -32,12 +32,16 @@ public class Dictionary implements Serializable{
 	@Column(name=DB.DICTIONARY__ID)
 	private Long id;
 
-	@Column(name=DB.DICTIONARY__UUID)
+	@Column(name=DB.DICTIONARY__UUID, nullable=false, unique=true)
 	private String uuid;
-	@Column(name=DB.DICTIONARY__NAME)
+	@Column(name=DB.DICTIONARY__NAME, nullable=false)
 	private String name;
-	@Column(name=DB.DICTIONARY__DESC)
+	@Column(name=DB.DICTIONARY__DESC, nullable=false)
 	private String description;
+	@Column(name=DB.DICTIONARY__BASE_LANG, nullable=false)
+	private Language baseLanguage;
+	@Column(name=DB.DICTIONARY__REF_LANG, nullable=false)
+	private Language refLanguage;
 
 	
 	public Long getId() {
@@ -65,12 +69,81 @@ public class Dictionary implements Serializable{
 		this.description = description;
 	}
 	
+	public Language getBaseLanguage() {
+		return baseLanguage;
+	}
+	public void setBaseLanguage(Language baseLanguage) {
+		this.baseLanguage = baseLanguage;
+	}
+	public Language getRefLanguage() {
+		return refLanguage;
+	}
+	public void setRefLanguage(Language refLanguage) {
+		this.refLanguage = refLanguage;
+	}
 
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((getBaseLanguage() == null) ? 0 : getBaseLanguage().hashCode());
+		result = prime * result
+				+ ((getDescription() == null) ? 0 : getDescription().hashCode());
+		result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
+		result = prime * result + ((getName() == null) ? 0 : getName().hashCode());
+		result = prime * result
+				+ ((getRefLanguage() == null) ? 0 : getRefLanguage().hashCode());
+		result = prime * result + ((getUuid() == null) ? 0 : getUuid().hashCode());
+		return result;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (obj instanceof Dictionary)
+			return false;
+		Dictionary other = (Dictionary) obj;
+		if (getBaseLanguage() == null) {
+			if (other.getBaseLanguage() != null)
+				return false;
+		} else if (!getBaseLanguage().equals(other.getBaseLanguage()))
+			return false;
+		if (getDescription() == null) {
+			if (other.getDescription() != null)
+				return false;
+		} else if (!getDescription().equals(other.getDescription()))
+			return false;
+		if (getId() == null) {
+			if (other.getId() != null)
+				return false;
+		} else if (!getId().equals(other.getId()))
+			return false;
+		if (getName() == null) {
+			if (other.getName() != null)
+				return false;
+		} else if (!getName().equals(other.getName()))
+			return false;
+		if (getRefLanguage() == null) {
+			if (other.getRefLanguage() != null)
+				return false;
+		} else if (!getRefLanguage().equals(other.getRefLanguage()))
+			return false;
+		if (getUuid() == null) {
+			if (other.getUuid() != null)
+				return false;
+		} else if (!getUuid().equals(other.getUuid()))
+			return false;
+		return true;
+	}
 	@Override
 	public String toString() {
 		return new StringBuilder().
-				append("id: ").append(id).
-				append("name: ").append(name).
+				append("id: ").append(getId()).append(", ").
+				append("name: ").append(getName()).
 				toString();
 	}
 }
