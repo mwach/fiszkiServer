@@ -7,6 +7,7 @@ import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.CriteriaSpecification;
 import org.hibernate.criterion.Restrictions;
 
 import mawa.mobica.com.model.Dictionary;
@@ -23,7 +24,7 @@ public final class DictionaryDao extends AbstractDao<Dictionary> implements IDic
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Dictionary> getDictionaries(String baseLanguage,
+	public List<Dictionary> enumerate(String baseLanguage,
 			String refLanguage) throws SQLException{
 
 		Session session = null;
@@ -34,13 +35,18 @@ public final class DictionaryDao extends AbstractDao<Dictionary> implements IDic
 			session = HibernateUtil.getSessionFactory().getCurrentSession();
 			transaction = session.beginTransaction();
 
-			Criteria criteria = session.createCriteria(Dictionary.class);
+			Criteria criteria = session.createCriteria(Dictionary.class, "dictionary");
+
 			if(baseLanguage != null){
-				criteria.add(Restrictions.eq(DB.DICTIONARY__BASE_LANG, baseLanguage));
+				criteria.createAlias("dictionary.baseLanguage", "baseLanguage");
+				criteria.add(Restrictions.eq("baseLanguage.name", baseLanguage));
 			}
+
 			if(refLanguage != null){
-				criteria.add(Restrictions.eq(DB.DICTIONARY__REF_LANG, refLanguage));
+				criteria.createAlias("dictionary.refLanguage", "refLanguage");
+				criteria.add(Restrictions.eq("refLanguage.name", refLanguage));
 			}
+			criteria.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
 
 			results = (List<Dictionary>)criteria.list();
 

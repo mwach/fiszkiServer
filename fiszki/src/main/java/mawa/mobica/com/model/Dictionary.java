@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -38,9 +40,11 @@ public class Dictionary implements Serializable{
 	private String name;
 	@Column(name=DB.DICTIONARY__DESC, nullable=false)
 	private String description;
-	@Column(name=DB.DICTIONARY__BASE_LANG, nullable=false)
+	@ManyToOne
+	@JoinColumn(name=DB.DICTIONARY__BASE_LANG, nullable=false)
 	private Language baseLanguage;
-	@Column(name=DB.DICTIONARY__REF_LANG, nullable=false)
+	@ManyToOne
+	@JoinColumn(name=DB.DICTIONARY__REF_LANG, nullable=false)
 	private Language refLanguage;
 
 	
@@ -104,7 +108,7 @@ public class Dictionary implements Serializable{
 			return true;
 		if (obj == null)
 			return false;
-		if (obj instanceof Dictionary)
+		if (!(obj instanceof Dictionary))
 			return false;
 		Dictionary other = (Dictionary) obj;
 		if (getBaseLanguage() == null) {

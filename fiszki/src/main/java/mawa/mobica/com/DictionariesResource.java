@@ -27,7 +27,7 @@ public class DictionariesResource {
 			@QueryParam(value = "baseLanguage") final String baseLanguage,
 			@QueryParam(value = "refLanguage") final String refLanguage) {
 		try {
-			return DictionaryDao.getInstance().getDictionaries(baseLanguage, refLanguage);
+			return DictionaryDao.getInstance().enumerate(baseLanguage, refLanguage);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

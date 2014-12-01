@@ -24,25 +24,20 @@ public class LanguageDaoTest {
 	public void testNotCompleteCreate() throws SQLException {
 		
 		exception.expect(InvalidObjectException.class);
-		Language language = new Language();
+		Language language = prepareLanguage("name");
 		language.setDescription(null);
-		language.setName("name");
 		languageDao.create(language);
 	}
 	@Test
 	public void testCreateGet() throws SQLException {
-		Language language = new Language();
-		language.setDescription("description");
-		language.setName("nameCG");
+		Language language = prepareLanguage("nameCG");
 		languageDao.create(language);
 		assertEquals(language, languageDao.get(language.getId()));
 	}
 
 	@Test
 	public void testCreateDelete() throws SQLException {
-		Language language = new Language();
-		language.setDescription("description");
-		language.setName("nameCD");
+		Language language = prepareLanguage("nameCD");
 		languageDao.create(language);
 		languageDao.delete(language.getId());
 
@@ -52,9 +47,7 @@ public class LanguageDaoTest {
 
 	@Test
 	public void testCreateUpdate() throws SQLException {
-		Language language = new Language();
-		language.setDescription(UUID.randomUUID().toString());
-		language.setName("nameCU");
+		Language language = prepareLanguage("nameCU");
 		languageDao.create(language);
 		assertEquals(language, languageDao.get(language.getId()));
 
@@ -65,9 +58,7 @@ public class LanguageDaoTest {
 
 	@Test
 	public void testEnumerate() throws SQLException {
-		Language language = new Language();
-		language.setDescription(UUID.randomUUID().toString());
-		language.setName(UUID.randomUUID().toString());
+		Language language = prepareLanguage(UUID.randomUUID().toString());
 		languageDao.create(language);
 		assertTrue(languageDao.enumerate().contains(language));
 	}
@@ -90,11 +81,16 @@ public class LanguageDaoTest {
 	public void testNonExistingUpdate() throws SQLException {
 
 		exception.expect(NotFoundException.class);
-		Language testLanguage = new Language();
-		testLanguage.setName("TNEU");
-		testLanguage.setDescription("description");
+		Language testLanguage = prepareLanguage("TNEU");
 		testLanguage.setId(-1L);
 		languageDao.update(testLanguage);
 	}
 
+	private Language prepareLanguage(String name){
+		
+		Language language = new Language();
+		language.setName(name);
+		language.setDescription("description");
+		return language;
+	}
 }

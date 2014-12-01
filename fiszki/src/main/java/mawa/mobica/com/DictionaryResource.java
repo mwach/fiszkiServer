@@ -20,7 +20,7 @@ public class DictionaryResource {
 	public Dictionary getDictionary() {
 
 		try {
-			return dd.getDictionaries(null, null).get(0);
+			return dd.enumerate(null, null).get(0);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
