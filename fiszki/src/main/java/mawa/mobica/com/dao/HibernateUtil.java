@@ -1,6 +1,8 @@
 package mawa.mobica.com.dao;
 
 
+import mawa.mobica.com.util.LogHelper;
+
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AnnotationConfiguration;
 
@@ -17,7 +19,8 @@ public class HibernateUtil {
         }
         catch (Exception ex) {
             // Make sure you log the exception, as it might be swallowed
-            System.err.println("Initial SessionFactory creation failed." + ex);
+            LogHelper.error(HibernateUtil.class, "buildSessionFactory", 
+            		"Initial SessionFactory creation failed.", ex);
             throw new ExceptionInInitializerError(ex);
         }
     }

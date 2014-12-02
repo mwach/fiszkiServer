@@ -34,7 +34,7 @@
 
  		<mapping class="mawa.mobica.com.model.Dictionary"/>
  		<mapping class="mawa.mobica.com.model.Language"/>
- 
+  		<mapping class="mawa.mobica.com.model.Word"/>
     </session-factory>
 
 </hibernate-configuration>

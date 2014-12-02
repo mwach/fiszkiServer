@@ -14,8 +14,13 @@ public final class DB {
 	public static final String DICTIONARY__NAME = "name";
 	public static final String DICTIONARY__UUID = "uuid";
 	public static final String DICTIONARY__DESC = "description";
-	public static final String DICTIONARY__BASE_LANG = "base_lang";
-	public static final String DICTIONARY__REF_LANG = "ref_lang";
+	public static final String DICTIONARY__BASE_LANG = "baseLanguage";
+	public static final String DICTIONARY__REF_LANG = "refLanguage";
 
+	public static final String WORD = "word";
+	public static final String WORD__ID = "id";
+	public static final String WORD__DICTIONARY = "dictionary";
+	public static final String WORD__BASE_WORD = "baseWord";
+	public static final String WORD__REF_WORD = "refWord";
 
 }

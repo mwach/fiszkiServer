@@ -1,14 +1,19 @@
 package mawa.mobica.com.model;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -47,6 +52,9 @@ public class Dictionary implements Serializable{
 	@JoinColumn(name=DB.DICTIONARY__REF_LANG, nullable=false)
 	private Language refLanguage;
 
+	@OneToMany(mappedBy=DB.WORD__DICTIONARY, cascade=CascadeType.REMOVE, fetch=FetchType.LAZY)
+	private Set<Word> words = new HashSet<Word>();
+
 	
 	public Long getId() {
 		return id;
@@ -84,6 +92,13 @@ public class Dictionary implements Serializable{
 	}
 	public void setRefLanguage(Language refLanguage) {
 		this.refLanguage = refLanguage;
+	}
+
+	public Set<Word> getWords() {
+		return words;
+	}
+	public void setWords(Set<Word> words) {
+		this.words = words;
 	}
 
 	

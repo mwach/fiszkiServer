@@ -35,16 +35,16 @@ public final class DictionaryDao extends AbstractDao<Dictionary> implements IDic
 			session = HibernateUtil.getSessionFactory().getCurrentSession();
 			transaction = session.beginTransaction();
 
-			Criteria criteria = session.createCriteria(Dictionary.class, "dictionary");
+			Criteria criteria = session.createCriteria(Dictionary.class, DB.DICTIONARY);
 
 			if(baseLanguage != null){
-				criteria.createAlias("dictionary.baseLanguage", "baseLanguage");
-				criteria.add(Restrictions.eq("baseLanguage.name", baseLanguage));
+				criteria.createAlias(String.format("%s.%s", DB.DICTIONARY, DB.DICTIONARY__BASE_LANG), DB.DICTIONARY__BASE_LANG);
+				criteria.add(Restrictions.eq(String.format("%s.%s", DB.DICTIONARY__BASE_LANG, DB.LANGUAGE__NAME), baseLanguage));
 			}
 
 			if(refLanguage != null){
-				criteria.createAlias("dictionary.refLanguage", "refLanguage");
-				criteria.add(Restrictions.eq("refLanguage.name", refLanguage));
+				criteria.createAlias(String.format("%s.%s", DB.DICTIONARY, DB.DICTIONARY__REF_LANG), DB.DICTIONARY__REF_LANG);
+				criteria.add(Restrictions.eq(String.format("%s.%s", DB.DICTIONARY__REF_LANG, DB.LANGUAGE__NAME), refLanguage));
 			}
 			criteria.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
 

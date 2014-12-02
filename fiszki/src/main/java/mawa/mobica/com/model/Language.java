@@ -1,12 +1,17 @@
 package mawa.mobica.com.model;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -37,7 +42,12 @@ public class Language implements Serializable{
 	@Column(name=DB.LANGUAGE__DESC, nullable=false)
 	private String description;
 
-	
+	@OneToMany(mappedBy=DB.DICTIONARY__BASE_LANG, cascade=CascadeType.REMOVE, fetch=FetchType.LAZY)
+	private Set<Dictionary> baseDictionaries = new HashSet<Dictionary>();
+
+	@OneToMany(mappedBy=DB.DICTIONARY__REF_LANG, cascade=CascadeType.REMOVE, fetch=FetchType.LAZY)
+	private Set<Dictionary> refDictionaries = new HashSet<Dictionary>();
+
 	public Long getId() {
 		return id;
 	}
@@ -57,7 +67,20 @@ public class Language implements Serializable{
 		this.description = description;
 	}
 
-	
+	public Set<Dictionary> getBaseDictionaries() {
+		return baseDictionaries;
+	}
+	public void setBaseDictionaries(Set<Dictionary> baseDictionaries) {
+		this.baseDictionaries = baseDictionaries;
+	}
+
+	public Set<Dictionary> getRefDictionaries() {
+		return refDictionaries;
+	}
+	public void setRefDictionaries(Set<Dictionary> refDictionaries) {
+		this.refDictionaries = refDictionaries;
+	}
+
 
 	@Override
 	public int hashCode() {
