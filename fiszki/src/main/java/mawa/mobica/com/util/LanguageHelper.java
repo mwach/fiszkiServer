@@ -5,11 +5,19 @@ import java.util.List;
 
 import mawa.mobica.com.model.Language;
 
-public final class LanguageHelper {
+public final class LanguageHelper extends ResourceHelper<Language, mawa.mobica.com.rest.dto.Language>{
+
+	private static LanguageHelper languageHelper = null;
+	public static synchronized LanguageHelper getInstance(){
+		if(languageHelper == null){
+			languageHelper = new LanguageHelper();
+		}
+		return languageHelper;
+	}
 
 	private LanguageHelper(){}
 
-	public static mawa.mobica.com.rest.dto.Language toDto(Language language){
+	public mawa.mobica.com.rest.dto.Language toDto(Language language){
 		mawa.mobica.com.rest.dto.Language dto = new mawa.mobica.com.rest.dto.Language();
 		dto.setId(language.getId());
 		dto.setName(language.getName());
@@ -17,7 +25,7 @@ public final class LanguageHelper {
 		return dto;
 	}
 
-	public static mawa.mobica.com.model.Language fromDto(
+	public mawa.mobica.com.model.Language fromDto(
 			mawa.mobica.com.rest.dto.Language dto) {
 		Language language = new Language();
 		language.setId(dto.getId());
@@ -26,7 +34,7 @@ public final class LanguageHelper {
 		return language;
 	}
 
-	public static List<mawa.mobica.com.rest.dto.Language> toDto(
+	public List<mawa.mobica.com.rest.dto.Language> toDto(
 			List<mawa.mobica.com.model.Language> languages) {
 		List<mawa.mobica.com.rest.dto.Language> dtos = new ArrayList<mawa.mobica.com.rest.dto.Language>();
 		for (Language language : languages) {

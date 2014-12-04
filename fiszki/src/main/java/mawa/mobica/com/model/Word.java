@@ -22,7 +22,7 @@ import mawa.mobica.com.dao.DB;
 @Entity
 @Table(name=DB.WORD)
 @XmlRootElement
-public class Word implements Serializable{
+public class Word implements Serializable, Model{
 
 	/**
 	 * 

@@ -23,7 +23,7 @@ import mawa.mobica.com.dao.DB;
  */
 @Entity
 @Table(name=DB.LANGUAGE)
-public class Language implements Serializable{
+public class Language implements Serializable, Model{
 
 	/**
 	 * 

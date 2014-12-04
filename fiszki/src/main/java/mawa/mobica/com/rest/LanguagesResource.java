@@ -25,9 +25,9 @@ public class LanguagesResource {
 	public List<Language> getLanguages(){
 
 		try {
-			return LanguageHelper.toDto(languageDao.enumerate());
+			return LanguageHelper.getInstance().toDto(languageDao.enumerate());
 		} catch (SQLException e) {
-			LogHelper.error(DictionariesResource.class, "getLanguages", e.getLocalizedMessage());
+			LogHelper.error(getClass(), "getLanguages", e.getLocalizedMessage());
 			throw new HTTPException(Status.NOT_FOUND.getStatusCode());
 		}
 	}

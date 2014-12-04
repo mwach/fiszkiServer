@@ -27,7 +27,7 @@ import mawa.mobica.com.dao.DB;
 @Entity
 @Table(name=DB.DICTIONARY)
 @XmlRootElement
-public class Dictionary implements Serializable{
+public class Dictionary implements Serializable, Model{
 
 	/**
 	 * 
