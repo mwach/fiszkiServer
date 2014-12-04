@@ -40,6 +40,13 @@ public final class LogHelper {
 		}
 	}
 
+	public static final void error(Class<?> className, String method, String message){
+		if(severeLoggable){
+			Logger.getLogger(className.getName()).logp(Level.SEVERE, 
+					className.getName(), message, format(message));
+		}
+	}
+
 	private static final String format(String message){
 		return String.format("[%d] %s" , Thread.currentThread().getId(), message);
 	}

@@ -4,6 +4,8 @@ import java.sql.SQLException;
 
 import mawa.mobica.com.dao.exception.InvalidObjectException;
 import mawa.mobica.com.dao.exception.NotFoundException;
+import mawa.mobica.com.util.LogHelper;
+import mawa.mobica.com.util.StringHelper;
 
 import org.hibernate.HibernateException;
 import org.hibernate.ObjectNotFoundException;
@@ -25,22 +27,26 @@ public class AbstractDao<T> implements IDao<T> {
 		Session session = null;
 		Transaction transaction = null;
 		try {
+			LogHelper.info(AbstractDao.class, "create", StringHelper.toString(object));
 			session = HibernateUtil.getSessionFactory().getCurrentSession();
 			transaction = session.beginTransaction();
 			session.save(object);
 			transaction.commit();
 			transaction = null;
+			LogHelper.info(AbstractDao.class, "create", StringHelper.toString(object));
 		} catch (PropertyValueException exc) {
+			LogHelper.error(AbstractDao.class, "create", StringHelper.toString(object), exc);
 			throw new InvalidObjectException(String.format(
 					"Could not insert object: '%s' into database", object), exc);
 		} catch (RuntimeException exc) {
+			LogHelper.error(AbstractDao.class, "create", StringHelper.toString(object), exc);
 			throw new SQLException("DAO create failed", exc);
 		} finally {
 			if (transaction != null) {
 				try {
 					transaction.rollback();
 				} catch (HibernateException exc) {
-
+					LogHelper.error(AbstractDao.class, "create", "transactionRollback failed", exc);
 				}
 			}
 		}
@@ -53,25 +59,32 @@ public class AbstractDao<T> implements IDao<T> {
 		Transaction transaction = null;
 
 		try {
+			LogHelper.info(AbstractDao.class, "delete", StringHelper.toString(objectId));
 			session = HibernateUtil.getSessionFactory().getCurrentSession();
 			transaction = session.beginTransaction();
-			Object persistentLanguage = session.load(type, objectId);
+			Object persistentLanguage = session.get(type, objectId);
 			if (persistentLanguage != null) {
 				session.delete(persistentLanguage);
+			}else{
+				throw new NotFoundException(String.format(
+						"Object with given ID: '%d' not found", objectId));				
 			}
 			transaction.commit();
 			transaction = null;
+			LogHelper.info(AbstractDao.class, "delete", "object successfully deleted");
 		} catch (ObjectNotFoundException exc) {
+			LogHelper.error(AbstractDao.class, "delete", String.format("object with given ID %d not found", objectId), exc);
 			throw new NotFoundException(String.format(
 					"Object with given ID: '%d' not found", objectId), exc);
 		} catch (RuntimeException exc) {
+			LogHelper.error(AbstractDao.class, "create", "DAO delete failed", exc);
 			throw new SQLException("DAO delete failed", exc);
 		} finally {
 			if (transaction != null) {
 				try {
 					transaction.rollback();
 				} catch (HibernateException exc) {
-
+					LogHelper.error(AbstractDao.class, "create", "transactionRollback failed", exc);
 				}
 			}
 		}
@@ -126,6 +139,7 @@ public class AbstractDao<T> implements IDao<T> {
 			persistentLanguage.toString();
 			object = (T) persistentLanguage;
 			transaction.commit();
+			transaction = null;
 		} catch (RuntimeException exc) {
 			throw new SQLException("DAO get failed", exc);
 		} finally {

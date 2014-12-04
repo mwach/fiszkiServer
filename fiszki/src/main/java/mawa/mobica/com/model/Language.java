@@ -13,7 +13,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlRootElement;
 
 import mawa.mobica.com.dao.DB;
 
@@ -24,7 +23,6 @@ import mawa.mobica.com.dao.DB;
  */
 @Entity
 @Table(name=DB.LANGUAGE)
-@XmlRootElement
 public class Language implements Serializable{
 
 	/**
@@ -116,13 +114,15 @@ public class Language implements Serializable{
 				return false;
 		} else if (!getName().equals(other.getName()))
 			return false;
+
 		return true;
 	}
 	@Override
 	public String toString() {
 		return new StringBuilder().
 				append("id: ").append(getId()).append(", ").
-				append("name: ").append(getName()).
+				append("name: ").append(getName()).append(", ").
+				append("description: ").append(getDescription()).
 				toString();
 	}
 }

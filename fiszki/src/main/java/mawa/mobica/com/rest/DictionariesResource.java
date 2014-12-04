@@ -1,4 +1,4 @@
-package mawa.mobica.com;
+package mawa.mobica.com.rest;
 
 import java.sql.SQLException;
 import java.util.List;
