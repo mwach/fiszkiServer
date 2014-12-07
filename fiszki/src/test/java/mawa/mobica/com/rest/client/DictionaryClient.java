@@ -29,7 +29,7 @@ public class DictionaryClient {
 		Client client = Client.create();
 		 
 		WebResource webResource = client
-		   .resource("http://localhost:8080/fiszki/rest/dictionary");
+		   .resource(getBaseURI());
  
 		ClientResponse response = webResource.type("application/json")
                    .post(ClientResponse.class, dictionarySttring);
@@ -50,7 +50,7 @@ public class DictionaryClient {
 		Client client = Client.create();
 		 
 		WebResource webResource = client
-		   .resource("http://localhost:8080/fiszki/rest/dictionary/1");
+		   .resource(getBaseURI(1));
  
 		ClientResponse response = webResource.accept("application/json")
                    .get(ClientResponse.class);
@@ -66,10 +66,15 @@ public class DictionaryClient {
 		System.out.println(output);
 	}
 
-	private static URI getBaseURI() {
+	private URI getBaseURI() {
 
 		return UriBuilder.fromUri(
 				"http://localhost:8080/fiszki/rest/dictionary").build();
+	}
 
+	private URI getBaseURI(long resourceId) {
+
+		return UriBuilder.fromUri(
+				String.format("http://localhost:8080/fiszki/rest/dictionary/%d", resourceId)).build();
 	}
 }

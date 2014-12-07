@@ -17,7 +17,7 @@ import mawa.mobica.com.util.DictionaryHelper;
 import mawa.mobica.com.util.LogHelper;
 
 @Path("/dictionaries")
-public class DictionariesResource {
+public class DictionariesService {
 
 	DictionaryDao dictionaryDao = DictionaryDao.getInstance();
 

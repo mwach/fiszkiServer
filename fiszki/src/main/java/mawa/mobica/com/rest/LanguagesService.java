@@ -16,7 +16,7 @@ import mawa.mobica.com.util.LanguageHelper;
 import mawa.mobica.com.util.LogHelper;
 
 @Path("/languages")
-public class LanguagesResource {
+public class LanguagesService {
 
 	LanguageDao languageDao = LanguageDao.getInstance();
 

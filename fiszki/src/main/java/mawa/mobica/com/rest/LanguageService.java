@@ -9,7 +9,7 @@ import mawa.mobica.com.util.LanguageHelper;
 import mawa.mobica.com.util.ResourceHelper;
 
 @Path("/language")
-public class LanguageResource extends RestResource<Language, mawa.mobica.com.rest.dto.Language>{
+public class LanguageService extends RestService<Language, mawa.mobica.com.rest.dto.Language>{
 
 	@Override
 	protected IDao<mawa.mobica.com.model.Language> getDao() {

@@ -9,7 +9,7 @@ import mawa.mobica.com.util.DictionaryHelper;
 import mawa.mobica.com.util.ResourceHelper;
 
 @Path("/dictionary")
-public class DictionaryResource extends RestResource<Dictionary, mawa.mobica.com.rest.dto.Dictionary>{
+public class DictionaryService extends RestService<Dictionary, mawa.mobica.com.rest.dto.Dictionary>{
 
 	@Override
 	protected IDao<Dictionary> getDao() {
