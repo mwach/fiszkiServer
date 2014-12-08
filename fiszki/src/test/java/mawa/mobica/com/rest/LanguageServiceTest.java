@@ -4,9 +4,9 @@ import static org.junit.Assert.*;
 
 import java.sql.SQLException;
 
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
-import javax.xml.ws.http.HTTPException;
 
 import mawa.mobica.com.dao.LanguageDao;
 import mawa.mobica.com.rest.dto.Language;
@@ -53,8 +53,7 @@ public class LanguageServiceTest{
 		Language updatedLanguage = prepareLanguage();
 		updatedLanguage.setId(languageId);
 
-		Response updateResponse = service.updateResource(updatedLanguage, languageId);
-		assertEquals(Status.OK.getStatusCode(), updateResponse.getStatus());
+		service.updateResource(updatedLanguage, languageId);
 		
 		baseLanguage.setId(languageId);
 		assertEquals(service.getResource(languageId), updatedLanguage);
@@ -67,14 +66,13 @@ public class LanguageServiceTest{
 		assertEquals(Status.CREATED.getStatusCode(), createResponse.getStatus());
 		long languageId = Long.parseLong((String)createResponse.getEntity());
 
-		Response deleteResponse = service.deleteResource(languageId);
-		assertEquals(Status.OK.getStatusCode(), deleteResponse.getStatus());
+		service.deleteResource(languageId);
 
 		try{
 			service.getResource(languageId);
 			throw new RuntimeException("delete does not work");
-		}catch(HTTPException exc){
-			assertEquals(Status.NOT_FOUND.getStatusCode(), exc.getStatusCode());
+		}catch(WebApplicationException exc){
+			assertEquals(Status.NOT_FOUND.getStatusCode(), exc.getResponse().getStatus());
 		}
 	}
 

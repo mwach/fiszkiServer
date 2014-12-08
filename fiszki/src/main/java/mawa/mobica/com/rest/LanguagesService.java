@@ -6,9 +6,9 @@ import java.util.List;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response.Status;
-import javax.xml.ws.http.HTTPException;
 
 import mawa.mobica.com.dao.LanguageDao;
 import mawa.mobica.com.rest.dto.Language;
@@ -22,13 +22,13 @@ public class LanguagesService {
 
 	@GET
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-	public List<Language> getLanguages(){
+	public List<Language> enumerate(){
 
 		try {
 			return LanguageHelper.getInstance().toDto(languageDao.enumerate());
 		} catch (SQLException e) {
 			LogHelper.error(getClass(), "getLanguages", e.getLocalizedMessage());
-			throw new HTTPException(Status.NOT_FOUND.getStatusCode());
+			throw new WebApplicationException(Status.NOT_FOUND.getStatusCode());
 		}
 	}
 }

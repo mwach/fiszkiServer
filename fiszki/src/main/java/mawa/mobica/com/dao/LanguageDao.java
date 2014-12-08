@@ -33,6 +33,8 @@ public final class LanguageDao extends AbstractDao<Language> implements ILanguag
 
 			languages = session.createCriteria(Language.class)
 					.list();
+			transaction.commit();
+			transaction = null;
 
 		} catch (RuntimeException exc) {
 			throw new SQLException("DAO get failed", exc);

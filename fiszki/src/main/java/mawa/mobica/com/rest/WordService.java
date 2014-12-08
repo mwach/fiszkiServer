@@ -8,7 +8,7 @@ import mawa.mobica.com.model.Word;
 import mawa.mobica.com.util.ResourceHelper;
 import mawa.mobica.com.util.WordHelper;
 
-@Path("/dictionary")
+@Path("/word")
 public class WordService extends RestService<Word, mawa.mobica.com.rest.dto.Word>{
 
 	@Override

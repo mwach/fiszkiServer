@@ -5,9 +5,9 @@ import static org.junit.Assert.*;
 import java.sql.SQLException;
 import java.util.UUID;
 
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
-import javax.xml.ws.http.HTTPException;
 
 import mawa.mobica.com.dao.LanguageDao;
 import mawa.mobica.com.rest.dto.Dictionary;
@@ -66,7 +66,7 @@ public class DictionaryServiceTest{
 		Dictionary dictionary = prepareDictionary();
 		dictionary.setBaseLanguageId(-1L);
 		
-		expectedException.expect(HTTPException.class);
+		expectedException.expect(WebApplicationException.class);
 		service.create(dictionary);
 	}
 
@@ -79,8 +79,7 @@ public class DictionaryServiceTest{
 		Dictionary updatedDictionary = prepareDictionary();
 		updatedDictionary.setId(dictionaryId);
 
-		Response updateResponse = service.updateResource(updatedDictionary, dictionaryId);
-		assertEquals(Status.OK.getStatusCode(), updateResponse.getStatus());
+		service.updateResource(updatedDictionary, dictionaryId);
 		assertEquals(service.getResource(dictionaryId), updatedDictionary);
 	}
 
@@ -90,15 +89,13 @@ public class DictionaryServiceTest{
 		Response response = service.create(dictionary);
 		assertEquals(Status.CREATED.getStatusCode(), response.getStatus());
 		long dictionaryId = Long.parseLong((String)response.getEntity());
-
-		Response deleteResponse = service.deleteResource(dictionaryId);
-		assertEquals(Status.OK.getStatusCode(), deleteResponse.getStatus());
+		service.deleteResource(dictionaryId);
 
 		try{
 			service.getResource(dictionaryId);
 			throw new RuntimeException("delete does not work");
-		}catch(HTTPException exc){
-			assertEquals(Status.NOT_FOUND.getStatusCode(), exc.getStatusCode());
+		}catch(WebApplicationException exc){
+			assertEquals(Status.NOT_FOUND.getStatusCode(), exc.getResponse().getStatus());
 		}
 	}
 

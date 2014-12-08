@@ -5,9 +5,9 @@ import static org.junit.Assert.*;
 import java.sql.SQLException;
 import java.util.UUID;
 
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
-import javax.xml.ws.http.HTTPException;
 
 import mawa.mobica.com.dao.LanguageDao;
 import mawa.mobica.com.rest.dto.Dictionary;
@@ -69,7 +69,7 @@ public class WordServiceTest{
 
 	@Test
 	public void addInvalidWord(){
-		expectedException.expect(HTTPException.class);
+		expectedException.expect(WebApplicationException.class);
 		Word word = prepareWord();
 		word.setDictionary(null);
 		service.create(word);
@@ -84,8 +84,7 @@ public class WordServiceTest{
 		Word updatedWord = prepareWord();
 		updatedWord.setId(wordId);
 
-		Response updateResponse = service.updateResource(updatedWord, wordId);
-		assertEquals(Status.OK.getStatusCode(), updateResponse.getStatus());
+		service.updateResource(updatedWord, wordId);
 		assertEquals(service.getResource(wordId), updatedWord);
 	}
 
@@ -95,15 +94,13 @@ public class WordServiceTest{
 		Response response = service.create(dictionary);
 		assertEquals(Status.CREATED.getStatusCode(), response.getStatus());
 		long wordId = Long.parseLong((String)response.getEntity());
-
-		Response deleteResponse = service.deleteResource(wordId);
-		assertEquals(Status.OK.getStatusCode(), deleteResponse.getStatus());
+		service.deleteResource(wordId);
 
 		try{
 			service.getResource(wordId);
 			throw new RuntimeException("delete does not work");
-		}catch(HTTPException exc){
-			assertEquals(Status.NOT_FOUND.getStatusCode(), exc.getStatusCode());
+		}catch(WebApplicationException exc){
+			assertEquals(Status.NOT_FOUND.getStatusCode(), exc.getResponse().getStatus());
 		}
 	}
 
