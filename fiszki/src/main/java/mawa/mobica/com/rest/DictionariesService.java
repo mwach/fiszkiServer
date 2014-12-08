@@ -12,6 +12,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response.Status;
 
 import mawa.mobica.com.dao.DictionaryDao;
+import mawa.mobica.com.dao.LanguageDao;
 import mawa.mobica.com.rest.dto.Dictionary;
 import mawa.mobica.com.util.DictionaryHelper;
 import mawa.mobica.com.util.LogHelper;
@@ -32,8 +33,12 @@ public class DictionariesService {
 
 		try {
 			if(baseLanguageId != null && refLanguageId != null){
+				LanguageDao.getInstance().get(baseLanguageId);
+				LanguageDao.getInstance().get(refLanguageId);
 				return DictionaryHelper.getInstance().toDto(dictionaryDao.enumerate(baseLanguageId, refLanguageId));
 			}else if(baseLanguageId == null && refLanguageId == null){
+				LanguageDao.getInstance().getByName(baseLanguage);
+				LanguageDao.getInstance().getByName(refLanguage);
 				return DictionaryHelper.getInstance().toDto(dictionaryDao.enumerate(baseLanguage, refLanguage));
 			}
 			LogHelper.error(getClass(), "getDictionaries", "Bad request. Both IDs must be either set or null");

@@ -8,4 +8,6 @@ import mawa.mobica.com.model.Language;
 public interface ILanguageDao extends IDao<Language>{
 
 	public List<Language> enumerate() throws SQLException;
+
+	public Language get(String name) throws SQLException;
 }

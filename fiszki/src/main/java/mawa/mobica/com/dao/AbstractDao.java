@@ -7,12 +7,14 @@ import mawa.mobica.com.dao.exception.NotFoundException;
 import mawa.mobica.com.util.LogHelper;
 import mawa.mobica.com.util.StringHelper;
 
+import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.ObjectNotFoundException;
 import org.hibernate.PropertyValueException;
 import org.hibernate.Session;
 import org.hibernate.StaleStateException;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Restrictions;
 
 public class AbstractDao<T> implements IDao<T> {
 
@@ -154,4 +156,41 @@ public class AbstractDao<T> implements IDao<T> {
 		return object;
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public T getByName(String objectName) throws SQLException {
+
+		Session session = null;
+		Transaction transaction = null;
+		T object = null;
+
+		try {
+			session = HibernateUtil.getSessionFactory().getCurrentSession();
+			transaction = session.beginTransaction();
+			
+			Criteria criteria = session.createCriteria(type);
+			criteria.add(Restrictions.eq(DB.DICTIONARY__NAME, objectName));
+
+			Object persistentObject = criteria.uniqueResult();
+			if(persistentObject == null){
+				throw new NotFoundException(String.format(
+						"Object with given name: '%s' not found", objectName));
+			}
+			persistentObject.toString();
+			object = (T) persistentObject;
+			transaction.commit();
+			transaction = null;
+		} catch (RuntimeException exc) {
+			throw new SQLException("DAO get failed", exc);
+		} finally {
+			if (transaction != null) {
+				try {
+					transaction.rollback();
+				} catch (HibernateException exc) {
+
+				}
+			}
+		}
+		return object;
+	}
 }

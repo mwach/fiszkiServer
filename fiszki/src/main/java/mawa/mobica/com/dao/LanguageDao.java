@@ -51,4 +51,8 @@ public final class LanguageDao extends AbstractDao<Language> implements ILanguag
 
 	}
 
+	@Override
+	public Language get(String name) throws SQLException {
+		return null;
+	}
 }

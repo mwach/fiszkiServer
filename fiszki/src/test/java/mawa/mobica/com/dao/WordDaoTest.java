@@ -54,7 +54,7 @@ public class WordDaoTest {
 		
 		exception.expect(InvalidObjectException.class);
 		Word word = new Word();
-		word.setBaseWord("base");
+		word.setName("base");
 		wordDao.create(word);
 	}
 	@Test
@@ -62,6 +62,7 @@ public class WordDaoTest {
 		Word word = prepareWord("nameCG");
 		wordDao.create(word);
 		assertEquals(word, wordDao.get(word.getId()));
+		assertEquals(word, wordDao.getByName(word.getName()));
 	}
 
 	@Test
@@ -80,7 +81,7 @@ public class WordDaoTest {
 		wordDao.create(word);
 		assertEquals(word, wordDao.get(word.getId()));
 
-		word.setBaseWord(UUID.randomUUID().toString());
+		word.setName(UUID.randomUUID().toString());
 		wordDao.update(word);
 		assertEquals(word, wordDao.get(word.getId()));
 	}
@@ -176,6 +177,13 @@ public class WordDaoTest {
 	}
 
 	@Test
+	public void testNonExistingGetByName() throws SQLException {
+
+		exception.expect(NotFoundException.class);
+		wordDao.getByName("aa");
+	}
+
+	@Test
 	public void testNonExistingDelete() throws SQLException {
 
 		exception.expect(NotFoundException.class);
@@ -185,8 +193,8 @@ public class WordDaoTest {
 	private Word prepareWord(String name) {
 		Word word = new Word();
 		word.setDictionary(dictionary);
-		word.setBaseWord(name);
-		word.setRefWord("refWord");
+		word.setName(name);
+		word.setRefName("refWord");
 		return word;
 	}
 

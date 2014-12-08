@@ -11,6 +11,7 @@ import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response.Status;
 
+import mawa.mobica.com.dao.DictionaryDao;
 import mawa.mobica.com.dao.WordDao;
 import mawa.mobica.com.rest.dto.Word;
 import mawa.mobica.com.util.LogHelper;
@@ -32,6 +33,7 @@ public class WordsService {
 			throw new WebApplicationException(new Throwable("Missing parameter 'dictionaryId'"), Status.BAD_REQUEST.getStatusCode());
 		}
 		try {
+			DictionaryDao.getInstance().get(dictionaryId);
 			return WordHelper.getInstance().toDto(wordDao.enumerate(dictionaryId));
 		} catch (SQLException e) {
 			LogHelper.error(getClass(), "getWords", e.getLocalizedMessage());

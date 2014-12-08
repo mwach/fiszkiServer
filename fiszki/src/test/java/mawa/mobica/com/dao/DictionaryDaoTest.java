@@ -53,6 +53,7 @@ public class DictionaryDaoTest {
 		Dictionary dictionary = prepareDictionary("nameCG");
 		dictionaryDao.create(dictionary);
 		assertEquals(dictionary, dictionaryDao.get(dictionary.getId()));
+		assertEquals(dictionary, dictionaryDao.getByName(dictionary.getName()));
 	}
 
 	@Test
@@ -124,14 +125,18 @@ public class DictionaryDaoTest {
 
 	@Test
 	public void testNonExistingGet() throws SQLException {
-
 		exception.expect(NotFoundException.class);
 		dictionaryDao.get(-1);
 	}
 
 	@Test
-	public void testNonExistingDelete() throws SQLException {
+	public void testNonExistingGetByName() throws SQLException {
+		exception.expect(NotFoundException.class);
+		dictionaryDao.getByName("aa");
+	}
 
+	@Test
+	public void testNonExistingDelete() throws SQLException {
 		exception.expect(NotFoundException.class);
 		dictionaryDao.delete(-1);
 	}

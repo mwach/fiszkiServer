@@ -20,8 +20,8 @@ public final class WordHelper extends ResourceHelper<Word, mawa.mobica.com.rest.
 	public mawa.mobica.com.rest.dto.Word toDto(Word word){
 		mawa.mobica.com.rest.dto.Word dto = new mawa.mobica.com.rest.dto.Word();
 		dto.setId(word.getId());
-		dto.setBaseWord(word.getBaseWord());
-		dto.setRefWord(word.getRefWord());
+		dto.setBaseWord(word.getName());
+		dto.setRefWord(word.getRefName());
 		dto.setDictionary(word.getDictionary().getId());
 		return dto;
 	}
@@ -30,8 +30,8 @@ public final class WordHelper extends ResourceHelper<Word, mawa.mobica.com.rest.
 			mawa.mobica.com.rest.dto.Word dto) {
 		Word word = new Word();
 		word.setId(dto.getId());
-		word.setBaseWord(dto.getBaseWord());
-		word.setRefWord(dto.getRefWord());
+		word.setName(dto.getBaseWord());
+		word.setRefName(dto.getRefWord());
 		Dictionary dictionary = new Dictionary();
 		dictionary.setId(dto.getDictionary());
 		word.setDictionary(dictionary);

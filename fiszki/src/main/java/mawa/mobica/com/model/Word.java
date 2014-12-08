@@ -37,10 +37,10 @@ public class Word implements Serializable, Model{
 	@ManyToOne
 	@JoinColumn(name=DB.WORD__DICTIONARY, nullable=false)
 	private Dictionary dictionary;
-	@Column(name=DB.WORD__BASE_WORD, nullable=false)
-	private String baseWord;
-	@Column(name=DB.WORD__REF_WORD, nullable=false)
-	private String refWord;
+	@Column(name=DB.WORD__NAME, nullable=false)
+	private String name;
+	@Column(name=DB.WORD__REF_NAME, nullable=false)
+	private String refName;
 
 	
 	public Long getId() {
@@ -55,17 +55,17 @@ public class Word implements Serializable, Model{
 	public void setDictionary(Dictionary dictionary) {
 		this.dictionary = dictionary;
 	}
-	public String getBaseWord() {
-		return baseWord;
+	public String getName() {
+		return name;
 	}
-	public void setBaseWord(String baseWord) {
-		this.baseWord = baseWord;
+	public void setName(String name) {
+		this.name = name;
 	}
-	public String getRefWord() {
-		return refWord;
+	public String getRefName() {
+		return refName;
 	}
-	public void setRefWord(String refWord) {
-		this.refWord = refWord;
+	public void setRefName(String refName) {
+		this.refName = refName;
 	}
 
 	
@@ -74,9 +74,9 @@ public class Word implements Serializable, Model{
 		final int prime = 31;
 		int result = 1;
 		result = prime * result
-				+ ((getBaseWord() == null) ? 0 : getBaseWord().hashCode());
+				+ ((getName() == null) ? 0 : getName().hashCode());
 		result = prime * result
-				+ ((getRefWord() == null) ? 0 : getRefWord().hashCode());
+				+ ((getRefName() == null) ? 0 : getRefName().hashCode());
 		result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
 		result = prime * result
 				+ ((getDictionary() == null) ? 0 : getDictionary().hashCode());
@@ -91,15 +91,15 @@ public class Word implements Serializable, Model{
 		if (!(obj instanceof Word))
 			return false;
 		Word other = (Word) obj;
-		if (getBaseWord() == null) {
-			if (other.getBaseWord() != null)
+		if (getName() == null) {
+			if (other.getName() != null)
 				return false;
-		} else if (!getBaseWord().equals(other.getBaseWord()))
+		} else if (!getName().equals(other.getName()))
 			return false;
-		if (getRefWord() == null) {
-			if (other.getRefWord() != null)
+		if (getRefName() == null) {
+			if (other.getRefName() != null)
 				return false;
-		} else if (!getRefWord().equals(other.getRefWord()))
+		} else if (!getRefName().equals(other.getRefName()))
 			return false;
 		if (getId() == null) {
 			if (other.getId() != null)
@@ -118,8 +118,8 @@ public class Word implements Serializable, Model{
 	public String toString() {
 		return new StringBuilder().
 				append("id: ").append(getId()).append(", ").
-				append("baseWord: ").append(getBaseWord()).append(", ").
-				append("refWord: ").append(getRefWord()).
+				append("name: ").append(getName()).append(", ").
+				append("refName: ").append(getRefName()).
 				toString();
 	}
 }

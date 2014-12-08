@@ -33,6 +33,8 @@ public class LanguageDaoTest {
 		Language language = prepareLanguage("nameCG");
 		languageDao.create(language);
 		assertEquals(language, languageDao.get(language.getId()));
+		assertEquals(language, languageDao.getByName(language.getName()));
+
 	}
 
 	@Test
@@ -68,6 +70,13 @@ public class LanguageDaoTest {
 
 		exception.expect(NotFoundException.class);
 		languageDao.get(-1);
+	}
+
+	@Test
+	public void testNonExistingGetByName() throws SQLException {
+
+		exception.expect(NotFoundException.class);
+		languageDao.getByName("aa");
 	}
 
 	@Test

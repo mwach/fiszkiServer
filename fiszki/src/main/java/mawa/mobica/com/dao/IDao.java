@@ -11,4 +11,6 @@ public interface IDao<T> {
 	public void update(T object) throws SQLException;
 
 	public T get(long objectId) throws SQLException;
+
+	public T getByName(String objectName) throws SQLException;
 }
