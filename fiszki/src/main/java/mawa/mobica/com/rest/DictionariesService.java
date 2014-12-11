@@ -23,7 +23,7 @@ public class DictionariesService {
 	DictionaryDao dictionaryDao = DictionaryDao.getInstance();
 
 	@GET
-	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+	@Produces({ MediaType.APPLICATION_JSON })
 	public List<Dictionary> enumerate(
 			@QueryParam("baseLanguage") String baseLanguage,
 			@QueryParam("refLanguage") String refLanguage,
@@ -36,7 +36,7 @@ public class DictionariesService {
 				LanguageDao.getInstance().get(baseLanguageId);
 				LanguageDao.getInstance().get(refLanguageId);
 				return DictionaryHelper.getInstance().toDto(dictionaryDao.enumerate(baseLanguageId, refLanguageId));
-			}else if(baseLanguageId == null && refLanguageId == null){
+			}else if(baseLanguage != null && refLanguage != null){
 				LanguageDao.getInstance().getByName(baseLanguage);
 				LanguageDao.getInstance().getByName(refLanguage);
 				return DictionaryHelper.getInstance().toDto(dictionaryDao.enumerate(baseLanguage, refLanguage));

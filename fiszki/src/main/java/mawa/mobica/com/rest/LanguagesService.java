@@ -21,7 +21,7 @@ public class LanguagesService {
 	LanguageDao languageDao = LanguageDao.getInstance();
 
 	@GET
-	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+	@Produces({ MediaType.APPLICATION_JSON })
 	public List<Language> enumerate(){
 
 		try {

@@ -49,6 +49,8 @@ public final class DictionaryDao extends AbstractDao<Dictionary> implements IDic
 			criteria.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
 
 			results = (List<Dictionary>)criteria.list();
+			transaction.commit();
+			transaction = null;
 
 		} catch (RuntimeException exc) {
 			throw new SQLException("DAO get failed", exc);

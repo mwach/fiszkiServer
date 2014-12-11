@@ -1,6 +1,8 @@
 package mawa.mobica.com.rest.client;
 
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import javax.ws.rs.core.UriBuilder;
@@ -15,19 +17,28 @@ import com.sun.jersey.api.client.WebResource;
 
 public class LanguageClient {
 
-	public static void main(String[] args) {
-		LanguageClient lc = new LanguageClient();
-		long languageId = lc.post();
-		lc.update(languageId);
-		lc.get(languageId);
-		lc.delete(languageId);
+	private static List<String[]> languages = new ArrayList<String[]>();
+	static{
+		languages.add(new String[]{"en", "English"});
+		languages.add(new String[]{"pl", "Polish"});
 	}
 
-	private long post() {
+	public static void main(String[] args) {
+		LanguageClient lc = new LanguageClient();
+		lc.insertDefaultLanguages();
+	}
 
-		Language language = new Language();
-		language.setName(UUID.randomUUID().toString());
-		language.setDescription("english");
+	private void insertDefaultLanguages() {
+		for (String[] languageStr : languages) {
+			Language language = new Language();
+			language.setName(languageStr[0]);
+			language.setDescription(languageStr[1]);
+			post(language);
+		}
+	}
+
+	private long post(Language language) {
+
 		String languageJson = new Gson().toJson(language);
 		
 		Client client = Client.create();
